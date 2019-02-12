@@ -1,0 +1,44 @@
+#Principal Component analysis using R
+
+# Install the packages "FactoMineR" and "factoextra"
+install.packages(c("FactoMineR","factoextra"))
+#Loading required packages
+library("FactoMineR")
+library("factoextra")
+
+# Importing the data from .CSV file
+mydata <- read.csv(file.choose(), header = TRUE)
+
+# PCA 
+res.pca<-PCA(mydata, scale.unit = TRUE, ncp = 5, graph = TRUE)
+print(res.pca)
+
+# Eigen Values
+res.pca$eig
+
+# To get Contributions of the variables
+res.pca$var$contrib
+
+# scree plot
+fviz_eig(res.pca, addlabels = TRUE, ylim = c(0, 50))
+
+#list of matrices containing all the results 
+var <- get_pca_var(res.pca)
+var
+# Coordinates for the variables
+var$coord
+
+# Correlations between variables and dimensions
+var$cor
+
+#To plot variables
+fviz_pca_var(res.pca, col.var = "black")
+
+
+# Contributions of variables to PC1
+fviz_contrib(res.pca, choice = "var", axes = 1, top = 10)
+# Contributions of variables to PC2
+fviz_contrib(res.pca, choice = "var", axes = 2, top = 10)
+# total contribution to PC1 and PC2 
+fviz_contrib(res.pca, choice = "var", axes = 1:2, top = 10)
+
